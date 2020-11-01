@@ -6,6 +6,7 @@
 		_Color ("Color", Color) = (1, 1, 1, 1)
 		[HDR] _EmissionColor ("Emission Color", Color) = (1, 1, 1, 1)
 		_ScaleFactor ("Scale Factor", float) = 0.5
+		_LineWidth ("Line Width", float) = 0.5
 		_Speed ("Speed", float) = 0.5
 	}
 	SubShader
@@ -26,6 +27,7 @@
 			sampler2D _WeightMap;
 			fixed4 _Color;
 			fixed _ScaleFactor;
+			fixed _LineWidth;
 			fixed _Speed;
 			float4 _EmissionColor;
 
@@ -93,7 +95,7 @@
 				barys.z = 1 - barys.x - barys.y;
 				float deltas = fwidth(barys);
 				float3 smoothing = deltas * 0.5;
-				float3 thickness = deltas;
+				float3 thickness = deltas * _LineWidth;
 
 				barys = smoothstep(thickness, thickness + smoothing, barys);
 				float minBary = min(barys.x, min(barys.y, barys.z));
